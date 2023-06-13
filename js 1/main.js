@@ -3,17 +3,13 @@ const userNames = ["Петрик Ольга Іванівна", "Гнатюк П�
 let initials;
 
 // тут ваш код ...
-
-// Створити копію масиву і сортувати його в алфавітному порядку
-const sortedNames = [...userNames].sort();
-
 // Створити масив зі скороченими формами з ініціалами
-initials = sortedNames.map(name => {
+initials = userNames.map(name => {
   const parts = name.split(" ");
   const initialsArray = parts.map(part => part.charAt(0).toUpperCase() + ".");
   return initialsArray.join("");
 });
-
+initials.sort();
 console.log(initials); // [ "Г.П.А.", "П.О.І.", "Р.А.О."]
 
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -35,21 +31,10 @@ console.log(typeof reverseMaxValue); // 'number'
 const resultsArray = [1, 2, [3, [4]]];
 let productOfArray;
 
-// тут ваш код...
-function calculateProduct(arr) {
-    let product = 1;
-    for (let i = 0; i < arr.length; i++) {
-      if (Array.isArray(arr[i])) {
-        // Якщо елемент є масивом, викликаємо рекурсивно calculateProduct()
-        product *= calculateProduct(arr[i]);
-      } else {
-        // Якщо елемент є числом, множимо на product
-        product *= arr[i];
-      }
-    }
-    return product;
-}
-  
-productOfArray = calculateProduct(resultsArray);
+// Застосовуємо метод flat(), щоб розгорнути масив до однорівневого
+const flattenedArray = resultsArray.flat(Infinity);
+
+// Використовуємо метод reduce(), щоб обчислити добуток масиву чисел
+productOfArray = flattenedArray.reduce((accumulator, currentValue) => accumulator * currentValue, 1);
 
 console.log(productOfArray); // 24
