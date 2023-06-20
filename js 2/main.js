@@ -32,9 +32,8 @@ function optimizer(data) {
   const updatedData = {};
 
   for (let key in data) {
-    const lowerCaseKey = key.toLowerCase;
-    const price = parseFloat(data[key]).toFixed(2);
-    updatedData[lowerCaseKey] = price;
+    const lowerCaseKey = key.toLowerCase();
+    updatedData[lowerCaseKey] = parseFloat(data[key]).toFixed(2);
   }
 
   return updatedData;
