@@ -1,32 +1,23 @@
 // 1. Задача на обчислення різниці часу
-function durationBetweenDates(startDate = '', endDate = '', dimension = 'seconds') {
+function durationBetweenDates(startDate = '01 Jan 2000', endDate = '01 Jan 2000', dimension = 'seconds') {
   let start = new Date(startDate);
   let end = new Date(endDate);
 
-  if (start > end) {
-    [start, end] = [end, start]; // Обмін значень, якщо початкова дата пізніше за кінцеву
-  }
-
-  // Обчислення різниці в мілісекундах
-  let difference = Math.abs(end - start);
+  const timeDiffInSeconds = Math.abs(end.getTime() - start.getTime()) / 1000;
 
   // Конвертація в розмірність
   switch (dimension) {
     case 'days':
-      difference = Math.floor(difference / (1000 * 60 * 60 * 24));
-      break;
+      return Math.ceil(timeDiffInSeconds / (60 * 60 * 24)) + ' days';
     case 'hours':
-      difference = Math.floor(difference / (1000 * 60 * 60));
-      break;
+      return Math.ceil(timeDiffInSeconds / (60 * 60)) + ' hours';
     case 'minutes':
-      difference = Math.floor(difference / (1000 * 60));
-      break;
-    default: // seconds
-      difference = Math.floor(difference / 1000);
-      break;
-  }
-
-  return `${difference} ${dimension}`;
+      return Math.ceil(timeDiffInSeconds / 60) + ' minutes';
+    case 'seconds':
+      return Math.ceil(timeDiffInSeconds) + ' seconds';
+    default:
+      return 'Invalid dimension';
+  } 
 }
 
 // Приклади використання
@@ -41,9 +32,9 @@ function optimizer(data) {
   const updatedData = {};
 
   for (let key in data) {
-    const lowercaseKey = key.toLowerCase();
+    const lowerCaseKey = key.toLowerCase;
     const price = parseFloat(data[key]).toFixed(2);
-    updatedData[lowercaseKey] = price;
+    updatedData[lowerCaseKey] = price;
   }
 
   return updatedData;
@@ -63,6 +54,7 @@ console.log(updatedPriceData); // {apples: '23.40', bananas: '48.00', oranges: '
 
 // 3. Задача на рекурсію та ітерацію
 
+// Рекурсія
 function recursiveOddSumTo(number) {
   if (number <= 0) {
     return 0;
@@ -77,3 +69,17 @@ function recursiveOddSumTo(number) {
 
 console.log(recursiveOddSumTo(1)); // 1
 console.log(recursiveOddSumTo(10)); // 25
+
+// Ітерація
+function iterativeOddSumTo(number) {
+  let sum = 0;
+
+  for (let i = 1; i <= number; i += 2) {
+    sum += i;
+  }
+
+  return sum;
+}
+
+console.log(iterativeOddSumTo(1)); // 1
+console.log(iterativeOddSumTo(10)); // 25
