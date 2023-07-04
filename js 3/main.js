@@ -229,8 +229,7 @@ function sum(a, b) {
 function slower(func, seconds) {
   return function (...args) {
     console.log(`Chill out, you will get your result in ${seconds} seconds.`);
-    setTimeout(function () {
-      func.apply(null, args);
+    setTimeout(() => func.apply(this, args);
     }, seconds * 1000);
   };
 }
