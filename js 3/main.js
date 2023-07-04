@@ -1,5 +1,5 @@
 // 1. addThemAll
-
+/*
 function addThemAll(...args) {
   return args.reduce((sum, num) => sum + num, 0);
 }
@@ -7,11 +7,11 @@ function addThemAll(...args) {
 console.log(addThemAll(2, 4)); // 6
 console.log(addThemAll(1, 2, 3, 4)); // 10
 console.log(addThemAll(5, 5, 10)); // 20
-
+*/
 ///////////////////////////////////////////////////////////
 
 // 2. multiply
-
+/*
 function multiply(a) {
   return function(b) {
     return a * b;
@@ -21,11 +21,11 @@ function multiply(a) {
 console.log(multiply(5)(5));  // 25
 console.log(multiply(2)(-2)); // -4
 console.log(multiply(4)(3));  // 12
-
+*/
 //////////////////////////////////////////////////////////
 
 // 3. movies
-
+/*
 const movies = [
   {
     movieName: 'The Thing',
@@ -66,20 +66,18 @@ function byProperty(property, direction) {
 console.log(movies.sort(byProperty('releaseYear', '>')));
 console.log(movies.sort(byProperty('runningTimeInMinutes', '<')));
 console.log(movies.sort(byProperty('movieName', '>')));
-
+*/
 //////////////////////////////////////////////////////////
 
 // 4. detonatorTimer
-
+/*
 // setInterval
 function detonatorTimer(delay) {
   let currentCount = delay;
-
   const intervalId = setInterval(() => {
     console.log(currentCount);
     currentCount--;
-
-    if (currentCount < 0) {
+    if (currentCount < 1) {
       console.log('BOOM!');
       clearInterval(intervalId);
     }
@@ -105,11 +103,11 @@ function detonatorTimer(delay) {
 }
 
 detonatorTimer(3);
-
+*/
 //////////////////////////////////////////////////////////
 
 // 5. 
-
+/*
 let car = {
   brand: 'Tesla',
   model: 'Model S',
@@ -190,11 +188,11 @@ let laptop = {
 laptop.introduce();
 laptop.displaySpecifications();
 laptop.displayAge();
-
+*/
 //////////////////////////////////////////////////////////
 
 // 6. 
-
+/*
 let securedSelfIntroduce = car.introduce.bind(car);
 let securedSelfDisplayFeatures = car.displayFeatures.bind(car);
 let securedSelfWashCar = car.washCar.bind(car);
@@ -218,7 +216,7 @@ let securedSelfDisplayAge = laptop.displayAge.bind(laptop);
 setTimeout(securedSelfIntroduce2, 1000);
 setTimeout(securedSelfDisplaySpecifications, 2000);
 setTimeout(securedSelfDisplayAge, 3000);
-
+*/
 //////////////////////////////////////////////////////////
 
 // 7. 
@@ -231,8 +229,8 @@ function sum(a, b) {
 function slower(func, seconds) {
   return function (...args) {
     console.log(`Chill out, you will get your result in ${seconds} seconds.`);
-    setTimeout(() => {
-      func(...args);
+    setTimeout(function () {
+      func.apply(null, args);
     }, seconds * 1000);
   };
 }
