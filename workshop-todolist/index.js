@@ -14,7 +14,7 @@ const form = document.querySelector('.create-task-form');
  */
 document.addEventListener('DOMContentLoaded', renderTasks);
 clearBtn.addEventListener('click', clearAllTasks);
-taskList.addEventListener('click', clearSingleTask);
+taskList.addEventListener('click', handleTaskAction);
 form.addEventListener('submit', createTask);
 
 /**
@@ -49,7 +49,11 @@ function createSingleTaskElement(task, taskId) {
     li.className = 'collection-item';
     li.dataset.taskId = taskId;
     // Кладемо в нього текстову ноду з задачею
-    li.appendChild(document.createTextNode(task));
+//    li.appendChild(document.createTextNode(task));
+
+    const taskText = document.createElement('span');
+    taskText.textContent = task;
+    li.appendChild(taskText);
 
     // Створюємо обгортку для іконки по кліку на яку буде видалена окрема задача
     const deleteElement = document.createElement('span');
@@ -60,6 +64,11 @@ function createSingleTaskElement(task, taskId) {
     // Додаємо елемент в елемент списку
     li.appendChild(deleteElement);
 
+    const editElement = document.createElement('span');
+    editElement.className = 'edit-item';
+    editElement.innerHTML = '<i class="fa fa-edit"></i>';
+    li.appendChild(editElement);
+    
     // Додаємо елемент списку в список задач
     taskList.appendChild(li);
 }
@@ -130,7 +139,7 @@ function clearAllTasks() {
 /**
  * Видаляємо окрему задачу з localStorage та з DOM
  * @param {Event} event - The triggering event
- */
+ 
 function clearSingleTask(event) {
     // Отримуємо батьківський елемент елементу на якому була подія кліку
     const iconContainer = event.target.parentElement;
@@ -145,6 +154,32 @@ function clearSingleTask(event) {
             taskItem.remove();
             removeTaskFromLocalStorage(taskId);
         }
+    }
+}
+*/
+
+/**
+ * Обробник подій для видалення та редагування задачі
+ * @param {Event} event - The triggering event
+ */
+function handleTaskAction(event) {
+    const target = event.target;
+    const taskItem = target.parentElement;
+    const taskId = taskItem.dataset.taskId;
+  
+    if (target.classList.contains('delete-item')) {
+      if (confirm('Ви впевнені що хочете видалити цю задачу?')) {
+        taskItem.remove();
+        removeTaskFromLocalStorage(taskId);
+      }
+    } else if (target.classList.contains('edit-item')) {
+      const taskTextElement = taskItem.querySelector('span');
+      const taskText = taskTextElement.textContent;  
+      const newTaskText = prompt('Введіть новий текст для завдання', taskText);
+      if (newTaskText !== null && newTaskText.trim() !== '') {
+        taskTextElement.textContent = newTaskText;
+        updateTaskInLocalStorage(taskId, newTaskText);
+      }
     }
 }
 
@@ -168,4 +203,15 @@ function removeTaskFromLocalStorage(taskId) {
     // Записуємо оновлений масив в localStorage
     setTasksToLocalStorage(tasks);
 */
+}
+
+function updateTaskInLocalStorage(taskId, newText) {
+    const tasks = getTasksFromLocalStorage();
+    const updatedTasks = tasks.map(task => {
+        if (task.id === task.id) {
+            return {...task, text: newText};
+        }
+        return task;
+    });
+    setTasksToLocalStorage(updatedTasks);
 }
