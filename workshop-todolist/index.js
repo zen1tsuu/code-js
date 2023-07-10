@@ -1,14 +1,20 @@
 'use strict';
 
+/**
+ * Оголошуємо змінні з HTML елементами
+ */
 const taskInput = document.querySelector('.task-input');
 const taskList = document.querySelector('.collection');
 const clearBtn = document.querySelector('.clear-tasks');
 const filter = document.querySelector('.filter-input');
 const form = document.querySelector('.create-task-form');
 
+/**
+ * Створюємо слухачі на необхідні нам події
+ */
 document.addEventListener('DOMContentLoaded', renderTasks);
 clearBtn.addEventListener('click', clearAllTasks);
-taskList.addEventListener('click', claerSingleTask);
+taskList.addEventListener('click', clearSingleTask);
 form.addEventListener('submit', createTask);
 
 /**
@@ -29,31 +35,45 @@ function setTasksToLocalStorage(tasks) {
 
 function generateUUID() {
     return Math.random().toString(36).substr(2, 9);
-  }
+}
+
 /**
  * Створюємо окрему задачу
  * @param {String} task - окрема задача
+ * @param {String} taskId - унікальний ідентифікатор задачі
  */
-function createSingleTaskElement(task) {
+function createSingleTaskElement(task, taskId) {
+    // Створюємо HTML елемент li
     const li = document.createElement('li');
-    const taskItem = document.createElement('li');
-    taskItem.dataset.taskId = task.id;
+    // Додаємо елементу клас
     li.className = 'collection-item';
+    li.dataset.taskId = taskId;
+    // Кладемо в нього текстову ноду з задачею
     li.appendChild(document.createTextNode(task));
 
+    // Створюємо обгортку для іконки по кліку на яку буде видалена окрема задача
     const deleteElement = document.createElement('span');
+    // Додаємо елементу клас
     deleteElement.className = 'delete-item';
+    // Кладемо в нього іконку
     deleteElement.innerHTML = '<i class="fa fa-remove"></i>';
+    // Додаємо елемент в елемент списку
     li.appendChild(deleteElement);
 
+    // Додаємо елемент списку в список задач
     taskList.appendChild(li);
 }
 
+/**
+ * Додаємо в DOM існуючі задачі
+ */
 function renderTasks() {
+    // Отримуємо задачі з localStorage або пустий масив
     const tasks = getTasksFromLocalStorage();
 
+    // Проходимо по масиву задач і додаємо кожну задачу в список, в DOM
     tasks.forEach((task) => {
-        createSingleTaskElement(task);
+        createSingleTaskElement(task.text, task.id);
     })
 }
 
@@ -62,35 +82,46 @@ function renderTasks() {
  * @param {Event} event - The triggering event
  */
 function createTask(event) {
+    // Блокуємо дефолтний сабміт форми
     event.preventDefault();
-    if (taskInput.value.trim() === ''){
+    // Виходимо з функції якщо в полі немає тексту і видаляймо непотрібні пробіли до і після тексту
+    if (taskInput.value.trim() === '') {
         return;
     }
-
-    createSingleTaskElement(taskInput.value);
-
-    storeTaskInLocalStorage(taskInput.value);
-
+    const taskId = generateUUID();
+    // Створюємо нову задачу і додаємо в DOM
+    createSingleTaskElement(taskInput.value, taskId);
+    // Додаємо нову задачу в localStorage
+    storeTaskInLocalStorage(taskInput.value, taskId);
+    // Очищуємо поле після додавання нової задачі в список
     taskInput.value = '';
 }
 
 /**
  * Додаємо нову створену задачу в localStorage
  * @param {String} task - окрема задача
+ * @param {String} taskId - унікальний ідентифікатор задачі
  */
-function storeTaskInLocalStorage(task) {
+function storeTaskInLocalStorage(task, taskId) {
+    // Отримуємо поточні задачі з localStorage
     const tasks = getTasksFromLocalStorage();
-    const taskId = generateUUID();
-    const task = {
+    const taskObject = {
         id: taskId,
+        text: task,
     };
-    tasks.push(task);
-
+    // Додаємо нову задачу в масив
+    tasks.push(taskObject);
+    // Записуємо оновлений масив в localStorage
     setTasksToLocalStorage(tasks);
 }
 
+/**
+ * Видаляємо всі задачі з localStorage та з DOM
+ */
 function clearAllTasks() {
+    // Показуємо користувачу модальне вікно для підтвердження видалення всіх задач
     if (confirm('Ви впевнені що хочете видалити всі задачі?')) {
+        // Якщо користувач підтверджує, то видаємо всі задачі з localStorage та з DOM
         localStorage.clear();
         taskList.innerHTML = '';
     }
@@ -100,29 +131,41 @@ function clearAllTasks() {
  * Видаляємо окрему задачу з localStorage та з DOM
  * @param {Event} event - The triggering event
  */
-function claerSingleTask(event) {
+function clearSingleTask(event) {
+    // Отримуємо батьківський елемент елементу на якому була подія кліку
     const iconContainer = event.target.parentElement;
+
+    // Якщо батьківський елемент має відповідний клас
     if (iconContainer.classList.contains('delete-item')) {
+        // Отримуємо підтвердження користувача
         if (confirm('Ви впевнені що хочете видалити цю задачу?')) {
-        iconContainer.parentElement.remove();
-        removeTaskFromLocalStorage(iconContainer.parentElement);
+            // Видаляємо елемент з DOM та з localStorage
+            const taskItem = iconContainer.parentElement;
+            const taskId = taskItem.dataset.taskId;
+            taskItem.remove();
+            removeTaskFromLocalStorage(taskId);
         }
-    }       
+    }
 }
 
 /**
  * Видаляємо окрему задачу з localStorage та з DOM
- * @param taskToRemove - DOM елемент
+ * @param {String} taskId - унікальний ідентифікатор задачі
  */
-function removeTaskFromLocalStorage(taskToRemove) {
+function removeTaskFromLocalStorage(taskId) {
+    // Отримуємо поточні задачі з localStorage
     const tasks = getTasksFromLocalStorage();
-    const taskId = taskToRemove.dataset.taskId;
-
+    const updatedTasks = tasks.filter((task) => task.id !== taskId);
+    setTasksToLocalStorage(updatedTasks);
+/*
+    // Проходимо по масиву задач і видаляємо необхідну
     tasks.forEach((task, index) => {
         if (taskToRemove.textContent === task) {
-            tasks.splice(index, 1);
+            tasks.splice(index, 1)
         }
     })
-    const updatedTasks = tasks.filter(task => task.id !== taskId);
-    setTasksToLocalStorage(updatedTasks);
+
+    // Записуємо оновлений масив в localStorage
+    setTasksToLocalStorage(tasks);
+*/
 }
