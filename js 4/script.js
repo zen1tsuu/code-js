@@ -9,7 +9,7 @@ function toggleButton() {
   if (isButtonOn) {
     // Вимикання
     toggleBtn.textContent = 'Turn on';
-    document.body.style.backgroundColor = '#111'; // Темний фон
+    document.body.classList.add('dark-background'); // Додавання класу для темного фону
     const lastTurnOff = new Date().toLocaleString();
     message.textContent = `Last turn off: ${lastTurnOff}`;
     localStorage.setItem('buttonState', 'off');
@@ -17,7 +17,7 @@ function toggleButton() {
   } else {
     // Увімкнення
     toggleBtn.textContent = 'Turn off';
-    document.body.style.backgroundColor = '#f5f5f5'; // Світлий фон
+    document.body.classList.remove('dark-background'); // Видалення класу для темного фону
     const lastTurnOn = new Date().toLocaleString();
     message.textContent = `Last turn on: ${lastTurnOn}`;
     localStorage.setItem('buttonState', 'on');
