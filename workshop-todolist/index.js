@@ -167,12 +167,12 @@ function handleTaskAction(event) {
     const taskItem = target.parentElement;
     const taskId = taskItem.dataset.taskId;
   
-    if (target.classList.contains('delete-item')) {
+    if (taskItem.classList.contains('delete-item')) {
       if (confirm('Ви впевнені що хочете видалити цю задачу?')) {
         taskItem.remove();
         removeTaskFromLocalStorage(taskId);
       }
-    } else if (target.classList.contains('edit-item')) {
+    } else if (taskItem.classList.contains('edit-item')) {
       const taskTextElement = taskItem.querySelector('span');
       const taskText = taskTextElement.textContent;  
       const newTaskText = prompt('Введіть новий текст для завдання', taskText);
