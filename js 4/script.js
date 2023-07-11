@@ -4,12 +4,12 @@ const message = document.getElementById('message');
 
 // Функція для зміни стану кнопки та фону сторінки
 function toggleButton() {
-  const isButtonOn = toggleBtn.textContent === 'Turn off'; // Перевірка поточного стану кнопки
+  const isDarkMode = document.body.classList.contains('dark-background'); // Перевірка поточного стану фону
 
-  if (isButtonOn) {
+  if (isDarkMode) {
     // Вимикання
     toggleBtn.textContent = 'Turn on';
-    document.body.classList.add('dark-background'); // Додавання класу для темного фону
+    document.body.classList.remove('dark-background'); // Видалення класу для темного фону
     const lastTurnOff = new Date().toLocaleString();
     message.textContent = `Last turn off: ${lastTurnOff}`;
     localStorage.setItem('buttonState', 'off');
@@ -17,7 +17,7 @@ function toggleButton() {
   } else {
     // Увімкнення
     toggleBtn.textContent = 'Turn off';
-    document.body.classList.remove('dark-background'); // Видалення класу для темного фону
+    document.body.classList.add('dark-background'); // Додавання класу для темного фону
     const lastTurnOn = new Date().toLocaleString();
     message.textContent = `Last turn on: ${lastTurnOn}`;
     localStorage.setItem('buttonState', 'on');
