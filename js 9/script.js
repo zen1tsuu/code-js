@@ -5,139 +5,50 @@
 // Вирішіть цю задачу:  
 // 1) за допомогою ітератора
 
-const numbers = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96,97,98,99,100];
+// function makeRangeIterator(start = 1, end = Infinity, step = 1) {
+//     let nextIndex = start;
+//     let iterationCount = 0;
 
-function makeIterator(array) {
-    let nextIndex = 0;
+//     const rangeIterator = {
+//         next() {
+//             let result;
+//             if (nextIndex < end && nextIndex % 15 === 0) {
+//                 result = {value: 'FizzBuzz', done: false};
+//                 nextIndex += step;
+//                 iterationCount++;
+//                 return result;
+//             } else if (nextIndex < end && nextIndex % 5 === 0) {
+//                 result = {value: 'Buzz', done: false};
+//                 nextIndex += step;
+//                 iterationCount++;
+//                 return result;
+//             }else if (nextIndex < end && nextIndex % 3 === 0) {
+//                 result = {value: 'Fizz', done: false};
+//                 nextIndex += step;
+//                 iterationCount++;
+//                 return result;
+//             } else if (nextIndex < end) {
+//                 result = {value: nextIndex, done: false};
+//                 nextIndex += step;
+//                 iterationCount++;
+//                 return result;
+//             } else {
+//                 return {value: iterationCount, done: true};
+//             }
+//         }
+//     }
+//     return rangeIterator;
+// }
 
-    return {
-        next: function() {
-            if(nextIndex % 3 === 0) {
-                const result = {value: 'Fizz', done: false};
-                nextIndex++;
-                return result;
-            }else if(nextIndex % 5 === 0) {
-                const result = {value: 'Buzz', done: false};
-                nextIndex++;
-                return result;
-            }else if(nextIndex % 15 === 0) {
-                const result = {value: 'FizzBuzz', done: false};
-                nextIndex++;
-                return result;
-            } else if (nextIndex < array.length) {
-                    const result = {value: array[nextIndex], done: false};
-                    nextIndex++
-                    return result;
-            } else {
-                return {done: true};
-            }
-        }
-    }
-}
+// const it = makeRangeIterator(1, 101, 1);
 
-let iterator = makeIterator(numbers);
+// let result = it.next();
+// while (!result.done) {
+//     console.log(result.value);
+//     result = it.next();
+// }
 
-console.log(iterator.next());
-console.log(iterator.next());
-console.log(iterator.next());
-console.log(iterator.next());
-console.log(iterator.next());
-console.log(iterator.next());
-console.log(iterator.next());
-console.log(iterator.next());
-console.log(iterator.next());
-console.log(iterator.next());
-console.log(iterator.next());
-console.log(iterator.next());
-console.log(iterator.next());
-console.log(iterator.next());
-console.log(iterator.next());
-console.log(iterator.next());
-console.log(iterator.next());
-console.log(iterator.next());
-console.log(iterator.next());
-console.log(iterator.next());
-console.log(iterator.next());
-console.log(iterator.next());
-console.log(iterator.next());
-console.log(iterator.next());
-console.log(iterator.next());
-console.log(iterator.next());
-console.log(iterator.next());
-console.log(iterator.next());
-console.log(iterator.next());
-console.log(iterator.next());
-console.log(iterator.next());
-console.log(iterator.next());
-console.log(iterator.next());
-console.log(iterator.next());
-console.log(iterator.next());
-console.log(iterator.next());
-console.log(iterator.next());
-console.log(iterator.next());
-console.log(iterator.next());
-console.log(iterator.next());
-console.log(iterator.next());
-console.log(iterator.next());
-console.log(iterator.next());
-console.log(iterator.next());
-console.log(iterator.next());
-console.log(iterator.next());
-console.log(iterator.next());
-console.log(iterator.next());
-console.log(iterator.next());
-console.log(iterator.next());
-console.log(iterator.next());
-console.log(iterator.next());
-console.log(iterator.next());
-console.log(iterator.next());
-console.log(iterator.next());
-console.log(iterator.next());
-console.log(iterator.next());
-console.log(iterator.next());
-console.log(iterator.next());
-console.log(iterator.next());
-console.log(iterator.next());
-console.log(iterator.next());
-console.log(iterator.next());
-console.log(iterator.next());
-console.log(iterator.next());
-console.log(iterator.next());
-console.log(iterator.next());
-console.log(iterator.next());
-console.log(iterator.next());
-console.log(iterator.next());
-console.log(iterator.next());
-console.log(iterator.next());
-console.log(iterator.next());
-console.log(iterator.next());
-console.log(iterator.next());
-console.log(iterator.next());
-console.log(iterator.next());
-console.log(iterator.next());
-console.log(iterator.next());
-console.log(iterator.next());
-console.log(iterator.next());
-console.log(iterator.next());
-console.log(iterator.next());
-console.log(iterator.next());
-console.log(iterator.next());
-console.log(iterator.next());
-console.log(iterator.next());
-console.log(iterator.next());
-console.log(iterator.next());
-console.log(iterator.next());
-console.log(iterator.next());
-console.log(iterator.next());
-console.log(iterator.next());
-console.log(iterator.next());
-console.log(iterator.next());
-console.log(iterator.next());
-console.log(iterator.next());
-console.log(iterator.next());
-console.log(iterator.next());
-console.log(iterator.next());
-console.log(iterator.next());
+// console.log('value:', result.value);
 
 
 // 2) за допомогою генератора
@@ -165,8 +76,21 @@ console.log(iterator.next());
 // Напишіть функцію-генератор, яка генерує випадкові числа.
 // Функція приймає параметрами максимальне значення рандомного числа та кількість рандомних чисел які функція повертає:
 
-function* generateRandomNumbers(max, quantity) {
-	// тут ваш код
-}
+// function* generateRandomNumbers(max, quantity) {
+//     let i = 0;
+
+    // while(i < quantity) {
+    //     yield i++;
+    //     return Math.floor(Math.random() * max);
+    // }
+
+    // random = Math.floor(Math.random() * (max - quantity) + quantity);
+    // function getRandomInt(max) {
+    //     return Math.floor(Math.random() * max);
+    // }
+    
+// }
 
 // тут виклик та ітерування в циклі
+// let gen = generateRandomNumbers();
+// console.log(gen.next(10, 2));
