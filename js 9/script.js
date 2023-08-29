@@ -76,43 +76,16 @@
 // Напишіть функцію-генератор, яка генерує випадкові числа.
 // Функція приймає параметрами максимальне значення рандомного числа та кількість рандомних чисел які функція повертає:
 
-function generateRandomStep(number) {
-    return Math.floor(Math.floor() * number);
-}
-
-function* generateRandomNumbers(start = 0, end = Infinity, generateRandomStep) {
-    let iterationCount = 0;
-    for(let i = start; i < end; i += generateRandomStep) {
-        iterationCount++;
-        yield i;
+function* generateRandomNumbers(max, quantity) {
+    max = max + 1;
+    for (let i = 0; i < quantity; i++) {
+        yield Math.floor(Math.random() * max);
     }
-    return iterationCount;
 }
-
-const it = generateRandomNumbers(1, 4, 2);
-let result = it.next();
-while (!result.done) {
-    console.log(result.value);
-    result = it.next();
-}
-console.log('value:', result.value);
-
-
-// function* generateRandomNumbers(max, quantity) {
-//     let i = 0;
-
-    // while(i < quantity) {
-    //     yield i++;
-    //     return Math.floor(Math.random() * max);
-    // }
-
-    // random = Math.floor(Math.random() * (max - quantity) + quantity);
-    // function getRandomInt(max) {
-    //     return Math.floor(Math.random() * max);
-    // }
-    
-// }
 
 // тут виклик та ітерування в циклі
-// let gen = generateRandomNumbers();
-// console.log(gen.next(10, 2));
+const generator = generateRandomNumbers(100, 5);
+    
+for (const randomNum of generator) {
+    console.log(randomNum);
+}
