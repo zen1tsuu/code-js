@@ -31,7 +31,11 @@ if (buttonState === 'off') {
   toggleButton(); // Увімкнення початкового стану
 } else {
   const lastTurnOn = localStorage.getItem('lastTurnOn');
-  message.textContent = `Last turn on: ${lastTurnOn}`; // Відображення останньої зміни
+  if (lastTurnOn === null) {
+    message.textContent = ``;
+  }else {
+    message.textContent = `Last turn on: ${lastTurnOn}`; // Відображення останньої зміни
+  }
 }
 
 // Додавання обробника події на клік кнопки
